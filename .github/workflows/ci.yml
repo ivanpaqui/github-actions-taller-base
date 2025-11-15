@@ -28,5 +28,5 @@ jobs:
       steps:
       - name: 1. download the code
         uses: actions/checkout@v4
-      - name: 2. despliegue
+      - name: 2. despliegue final
         run: echo "despliegue exitoso"
