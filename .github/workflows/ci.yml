@@ -1,6 +1,6 @@
-name: Integración Continua (CI)
-# Definimos el evento que disparará este workflow.
-# Se ejecutará con cada 'push' a la rama 'main'.
+name: Continuous Integration (CI)
+# We define the event that will trigger this workflow.
+# It will be executed with every 'push' to the 'main' branch.
 on:
   push:
     branches: [main]
@@ -11,13 +11,22 @@ jobs:
       matrix:
         node-version: ['18','20']
     steps:
-      - name: 1. Descargar Código del Repositorio
+      - name: 1. Download Repository Code
         uses: actions/checkout@v4
-      - name: 2. Configurar Entorno de Node.js (${{matrix.node-version}})
+      - name: 2. Configure Node.js Environment (${{matrix.node-version}})
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - name: 3. Instalar Dependencias del Proyecto
+      - name: 3. Install Project Dependencies
         run: npm ci
-      - name: 4. Ejecutar Pruebas Unitarias con Jest
+      - name: 4. Run Unit Tests with Jest
         run: npm test
+  deploy:
+      needs: [build_and_test]
+      runs-on:
+        ubuntu-latest
+      steps:
+      - name: 1. download the code
+        uses: actions/checkout@v4
+      - name: 2. despliegue
+        run: echo "despliegue exitoso"
